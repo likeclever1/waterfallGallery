@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tabs-ui</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/jquery.waterfall.css">
+
+
+</head>
+<body>
+
+    <div class="waterfall">
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+    </div><!-- end .waterfall -->
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    
+    <script>
+    
+    function waterfall() {
+        var waterfall = $(".waterfall");
+        var screenHeight = $(window).height();
+
+        $(".waterfall__item").each(function() {
+            
+            var limit = 150;
+            var height = this.getBoundingClientRect().height;
+            var $this = $(this);
+            var opacity;
+
+            var transform = getComputedStyle(this, '').transform;
+                
+            var start = +transform.indexOf("(")+1;
+            var end = transform.indexOf(")");
+
+            var transformY = transform.slice(start, end).split(", ")[transform.slice(start, end).split(", ").length - 1];
+
+            var y;
+
+            if(transformY <= 0 || isNaN(+transformY)) {
+                y = 0;
+            } else if(transformY > limit) {
+                y = limit;
+            } else {
+                y = transformY;
+            }
+
+            var bottom = +this.getBoundingClientRect().bottom - y;
+            var top = +this.getBoundingClientRect().top - y;
+
+            if(height + bottom > screenHeight && height + top < screenHeight) {
+
+                opacity = Math.abs( ( (top) - screenHeight ) / height ) - 1;
+                y = Math.abs(opacity*limit - limit);
+
+                $this.addClass("waterfall__item_between");
+                $this.removeClass("waterfall__item_after");
+                $this.removeClass("waterfall__item_before");
+
+                $this.css({
+                    "opacity": opacity,
+                    "transform": "translate(0px," + y + "px)",
+                    "border-color": "red"
+                });
+            } else if(screenHeight > bottom) {
+
+                $this.addClass("waterfall__item_after");
+                $this.removeClass("waterfall__item_between");
+                $this.removeClass("waterfall__item_before");
+                
+                $this.css({
+                    "opacity": 1,
+                    "transform": "translate(0, 0)",
+                    "border-color": "yellow"
+                });
+            } else {
+
+                $this.removeClass("waterfall__item_after");
+                $this.removeClass("waterfall__item_between");
+                $this.addClass("waterfall__item_before");
+                
+                $this.css({
+                    "opacity": 0,
+                    "transform": "translate(0px, "+limit+"px)",
+                    "border-color": "black"
+                });
+            }
+        });
+    };
+
+    $(window).on("scroll", function() {
+        waterfall();
+    });
+
+    waterfall();
+
+    </script>
+</body>

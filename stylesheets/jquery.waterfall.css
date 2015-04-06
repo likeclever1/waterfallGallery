@@ -1,0 +1,11 @@
+.waterfall{
+    width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.waterfall__item{
+    float: left;
+    margin:  0 0 20px 20px;
+}
