@@ -26,6 +26,20 @@
         <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
         <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
         <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
     </div><!-- end .waterfall -->
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -39,7 +53,7 @@
         $(".waterfall__item").each(function() {
             
             var height = this.getBoundingClientRect().height;
-            var limit = screenHeight/3;
+            var limit = 300;
             var $this = $(this);
             var opacity;
             var y = 0;
@@ -62,11 +76,13 @@
                 y = 0;
             }
 
-            var bottom = +this.getBoundingClientRect().bottom + limit;
-            var top = +this.getBoundingClientRect().top - limit;
+            var bottom = +this.getBoundingClientRect().bottom;
+            var top = +this.getBoundingClientRect().top;
+            
 
-            if(top <= screenHeight && screenHeight <= bottom) {
 
+            if(limit <= bottom && bottom <= screenHeight) {
+                console.log(limit, screenHeight, bottom);
                 // Calc opacity
                 // we need related value from 0 to 1
                 // for this take start and end point(bottom and screenHeight)
@@ -74,7 +90,7 @@
                 // after that invert (1 - )
                 // opacity = 1 - ( bottom - screenHeight ) / bottom - top;
                 
-                opacity = 1 - (bottom - top + limit) / 100 * (bottom - screenHeight + limit) / 10000;
+                opacity = 1 - (bottom - limit) / (screenHeight - limit);
                 
                 // Calc transform
                 // we need related value from 0 to limit
@@ -88,7 +104,7 @@
 
                 $this.css({
                     "opacity": opacity,
-                    "transform": "translate(0," + y + "px)",
+                    // "transform": "translate(0," + y + "px)",
                     "border-color": "red"
                 });
             } else if(screenHeight > bottom) {
@@ -99,7 +115,7 @@
                 
                 $this.css({
                     "opacity": 1,
-                    "transform": "translate(0, 0)",
+                    // "transform": "translate(0, 0)",
                     "border-color": "yellow"
                 });
             } else {
@@ -110,7 +126,7 @@
                 
                 $this.css({
                     "opacity": 0,
-                    "transform": "translate(0px, "+limit+"px)",
+                    // "transform": "translate(0px, "+limit+"px)",
                     "border-color": "black"
                 });
             }
