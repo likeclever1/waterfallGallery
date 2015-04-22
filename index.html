@@ -12,19 +12,34 @@
 <body>
 
     <div class="waterfall">
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
-        <div class="waterfall__item"><img src="http://sokruta.com.ua/uploads/thumb/0/projects_list/252-K_006.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
+        <div class="waterfall__item"><img src="img/example.jpg" alt=""></div>
     </div><!-- end .waterfall -->
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -37,35 +52,51 @@
 
         $(".waterfall__item").each(function() {
             
-            var limit = 150;
             var height = this.getBoundingClientRect().height;
+            var limit = 300;
             var $this = $(this);
             var opacity;
+            var y = 0;
 
-            var transform = getComputedStyle(this, '').transform;
+            if(!!this.style.transform) {
+                var transform = getComputedStyle(this, '').transform;
+                var start = +transform.indexOf("(")+1;
+                var end = transform.indexOf(")");
+                var transformY = transform.slice(start, end).split(", ")[transform.slice(start, end).split(", ").length - 1];
                 
-            var start = +transform.indexOf("(")+1;
-            var end = transform.indexOf(")");
+                if(transformY <= 0) {
+                    y = 0;
+                } else if(transformY > limit) {
+                    y = limit;
+                } else {
+                    y = transformY;
+                }
 
-            var transformY = transform.slice(start, end).split(", ")[transform.slice(start, end).split(", ").length - 1];
-
-            var y;
-
-            if(transformY <= 0 || isNaN(+transformY)) {
-                y = 0;
-            } else if(transformY > limit) {
-                y = limit;
             } else {
-                y = transformY;
+                y = 0;
             }
 
-            var bottom = +this.getBoundingClientRect().bottom - y;
-            var top = +this.getBoundingClientRect().top - y;
+            var bottom = +this.getBoundingClientRect().bottom;
+            var top = +this.getBoundingClientRect().top;
+            
 
-            if(height + bottom > screenHeight && height + top < screenHeight) {
 
-                opacity = Math.abs( ( (top) - screenHeight ) / height ) - 1;
-                y = Math.abs(opacity*limit - limit);
+            if(limit <= bottom && bottom <= screenHeight) {
+                console.log(limit, screenHeight, bottom);
+                // Calc opacity
+                // we need related value from 0 to 1
+                // for this take start and end point(bottom and screenHeight)
+                // and divide difference it on 100% (height)
+                // after that invert (1 - )
+                // opacity = 1 - ( bottom - screenHeight ) / bottom - top;
+                
+                opacity = 1 - (bottom - limit) / (screenHeight - limit);
+                
+                // Calc transform
+                // we need related value from 0 to limit
+                // transform related from opacity
+                step = 1 - ((bottom - top) / 100) * ( (bottom - screenHeight) / 100 ) / 100;
+                y = limit - (limit/100)*step * 100;
 
                 $this.addClass("waterfall__item_between");
                 $this.removeClass("waterfall__item_after");
@@ -73,7 +104,7 @@
 
                 $this.css({
                     "opacity": opacity,
-                    "transform": "translate(0px," + y + "px)",
+                    // "transform": "translate(0," + y + "px)",
                     "border-color": "red"
                 });
             } else if(screenHeight > bottom) {
@@ -84,7 +115,7 @@
                 
                 $this.css({
                     "opacity": 1,
-                    "transform": "translate(0, 0)",
+                    // "transform": "translate(0, 0)",
                     "border-color": "yellow"
                 });
             } else {
@@ -95,7 +126,7 @@
                 
                 $this.css({
                     "opacity": 0,
-                    "transform": "translate(0px, "+limit+"px)",
+                    // "transform": "translate(0px, "+limit+"px)",
                     "border-color": "black"
                 });
             }
@@ -103,6 +134,10 @@
     };
 
     $(window).on("scroll", function() {
+        waterfall();
+    });
+
+    $(window).on("resize", function() {
         waterfall();
     });
 
