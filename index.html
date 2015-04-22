@@ -108,5 +108,44 @@
 
     waterfall();
 
+
+    var diff = 20;
+    var top1 = 0;
+    var left1 = 0;
+    var top2 = 0;
+    var left2 = 0;
+    var col = 2;
+    
+
+    $(window).on("load", function() {
+        $(".waterfall__item").each(function(item) {
+            var $this = $(this);
+            $this.css({
+                "position": "absolute"
+            });
+
+            if(item % col) {
+                $this.css({
+                    "top": top1 + "px",
+                    "left": $this.width() + diff + "px"
+                });
+                top1 += $this.height() + diff;
+            } else {
+                $this.css({
+                    "top": top2 + "px",
+                    "left": 0
+                });
+                top2 += $this.height() + diff;
+            }
+        });
+
+        var top = (top1 > top2) ? top1 : top2;
+
+        $(".waterfall").css({
+            "height": top + "px",
+            "position": "relative"
+        });
+
+    });
     </script>
 </body>
